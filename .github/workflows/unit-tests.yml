@@ -1,4 +1,4 @@
-name: Java CI Unit Tests
+name: Java CI Unit Tests (Simple)
 
 on:
   push:
@@ -20,5 +20,11 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           
-      - name: Execute JUnit Tests
-        run: mvn test
+      - name: Download JUnit 5 Runner
+        run: wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar -O junit.jar
+          
+      - name: Compile Java Files
+        run: javac -cp junit.jar -d . *.java
+        
+      - name: Run JUnit Tests
+        run: java -jar junit.jar --class-path . --scan-class-path
